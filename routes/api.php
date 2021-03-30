@@ -20,9 +20,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/user/{user_id}', 'UserController@userDetails');
 Route::get('/users', 'UserController@users');
+Route::get('/user/name/{id}', 'UserController@userName');
 
 Route::get('/books', 'BookController@getBooks');
 Route::get('/book/{id}', 'BookController@getBookDetails');
 Route::post('/book', 'BookController@createBook');
 Route::put('/book/{id}', 'BookController@updateBook');
 Route::delete('/book/{id}', 'BookController@deleteBook');
+
