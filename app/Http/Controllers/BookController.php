@@ -19,4 +19,17 @@ class BookController extends Controller
 
         return $this->success('List books', $books, 200);
     }
+
+    public function createBook(Request $request)
+    {
+        $title = $request->title;
+        $author = $request->author;
+
+        $book = Book::create([
+            'title' => $title,
+            'author' => $author
+        ]);
+
+        return $this->success('Book creates', $book, 200);
+    }
 }

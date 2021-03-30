@@ -39,6 +39,7 @@ class UserController extends Controller
     public function userName(Request $request)
     {
         $id = $request->id;
+
         $result = Helper::getUserName($id);
         if (!$result) {
             return $this->error('User name not found');
