@@ -14,17 +14,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', 'AuthController@login');
+    Route::post('signup', 'AuthController@signup');
+
+    Route::group(['middleware' => 'auth:api'], function() {
+        Route::get('logout', 'AuthController@logout');
+        Route::get('user', 'AuthController@user');
+    });
 });
 
-Route::get('/user/{user_id}', 'UserController@userDetails');
-Route::get('/users', 'UserController@users');
-Route::get('/user/name/{id}', 'UserController@userName');
+Route::group([ 'middleware' => 'auth:api'], function() {
+    Route::get('/users', 'UserController@users');
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('/{user_id}', 'UserController@userDetails');
+        Route::get('/name/{id}', 'UserController@userName');
+    });
 
-Route::get('/books', 'BookController@getBooks');
-Route::get('/book/{id}', 'BookController@getBookDetails');
-Route::post('/book', 'BookController@createBook');
-Route::put('/book/{id}', 'BookController@updateBook');
-Route::delete('/book/{id}', 'BookController@deleteBook');
+    Route::get('/books', 'BookController@getBooks');
+    Route::group(['prefix' => 'book'], function () {
+        Route::get('/{id}', 'BookController@getBookDetails');
+        Route::post('/', 'BookController@createBook');
+        Route::put('/{id}', 'BookController@updateBook');
+        Route::delete('/{id}', 'BookController@deleteBook');
+    });
+
+  });
+
+
+
 

@@ -3,6 +3,7 @@
 namespace App\Lib;
 
 use App\User;
+use Carbon\Carbon;
 
 class Helper {
 
@@ -14,6 +15,10 @@ class Helper {
         }
 
         return $user->name;
+    }
+
+    public static function getTimeNow() {
+        return Carbon::now();
     }
 
 }
