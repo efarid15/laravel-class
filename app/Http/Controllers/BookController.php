@@ -4,32 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Book;
+use App\Interfaces\BookInterface;
 use App\Traits\ResponseApi;
 
 class BookController extends Controller
 {
+
     use ResponseApi;
+    protected $bookInterface;
+
+    public function __construct(BookInterface $bookInterface)
+    {
+        $this->bookInterface = $bookInterface;
+    }
 
     public function getBooks(Request $request)
     {
-        $books = Book::All();
-        if ($books == null) {
-            return $this->error('Books not exists');
-        }
-
-        return $this->success('List books', $books, 200);
+        return $this->bookInterface->getBooks($request);
     }
 
     public function createBook(Request $request)
     {
-        $title = $request->title;
-        $author = $request->author;
-
-        $book = Book::create([
-            'title' => $title,
-            'author' => $author
-        ]);
-
-        return $this->success('Book creates', $book, 200);
+        return $this->bookInterface->createBook($request);
     }
 }
