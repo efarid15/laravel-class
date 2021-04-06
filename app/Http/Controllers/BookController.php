@@ -27,4 +27,14 @@ class BookController extends Controller
     {
         return $this->bookInterface->createBook($request);
     }
+
+    public function getBookDetails(Request $request)
+    {
+        return $this->bookInterface->getBookDetails($request);
+    }
+
+    public function updateBook(Request $request)
+    {
+        return $this->bookInterface->updateBook($request);
+    }
 }
