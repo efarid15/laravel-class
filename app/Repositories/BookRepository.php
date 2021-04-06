@@ -6,6 +6,7 @@ use App\Book;
 use App\Http\Resources\BookCollection;
 use App\Http\Resources\BookDetailsResource;
 use App\Http\Resources\BookResource;
+use App\Http\Resources\V2BookResource;
 use App\Interfaces\BookInterface;
 use App\Traits\ResponseApi;
 use Illuminate\Http\Request;
@@ -22,8 +23,9 @@ class BookRepository implements BookInterface
         if ($books == null) {
             return $this->error('Books not exists');
         }
+        $response = V2BookResource::collection($books);
 
-        return $this->success('List books', $books, 200);
+        return $this->success('List books', $response, 200);
     }
 
     public function createBook(Request $request)
@@ -50,7 +52,7 @@ class BookRepository implements BookInterface
             return $this->error("Book ID $book_id not found");
         }
 
-        $response = new BookDetailsResource($book);
+        $response = new V2BookResource($book);
 
         return $this->success('Book details', $response, 200);
     }
