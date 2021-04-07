@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'AuthController@login');
     Route::post('signup', 'AuthController@signup');
@@ -33,13 +32,23 @@ Route::group([ 'middleware' => 'auth:api'], function() {
 
     Route::get('/books', 'BookController@getBooks');
     Route::group(['prefix' => 'book'], function () {
+        Route::get('/archived', 'BookController@bookArchived');
         Route::get('/{id}', 'BookController@getBookDetails');
         Route::post('/', 'BookController@createBook');
         Route::put('/{id}', 'BookController@updateBook');
         Route::delete('/{id}', 'BookController@deleteBook');
+
     });
 
   });
+
+Route::fallback(function () {
+    return response()->json([
+        'message' => 'Endpoint not exists'
+    ]);
+    // return view('errors.404');  // incase you want to return view
+});
+
 
 
 

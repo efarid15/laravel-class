@@ -37,4 +37,14 @@ class BookController extends Controller
     {
         return $this->bookInterface->updateBook($request);
     }
+
+    public function deleteBook(Request $request)
+    {
+        return $this->bookInterface->deleteBook($request);
+    }
+
+    public function bookArchived(Request $request)
+    {
+        return $this->bookInterface->bookArchived($request);
+    }
 }

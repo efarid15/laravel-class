@@ -20,7 +20,7 @@ class BookRepository implements BookInterface
         $books = Book::paginate(15);
         //dd($books);
 
-        if ($books == null) {
+        if ($books === null) {
             return $this->error('Books not exists');
         }
         $response = V2BookResource::collection($books);
@@ -48,6 +48,7 @@ class BookRepository implements BookInterface
         $book_id = $request->id;
 
         $book = Book::find($book_id);
+
         if ($book === null) {
             return $this->error("Book ID $book_id not found");
         }
@@ -88,7 +89,31 @@ class BookRepository implements BookInterface
             return $this->error($e->getMessage());
             //throw $th;
         }
+    }
 
+    public function deleteBook(Request $request)
+    {
+        $book_id = $request->id;
 
+        $delete = Book::where('id', $book_id)->delete();
+
+        if (!$delete){
+            return $this->error('Delete book failed');
+        }
+
+        $book = Book::all();
+
+        //$response = "$delete book deleted";
+        return $this->success('Delete book success', $book, 200);
+
+    }
+
+    public function bookArchived(Request $request)
+    {
+        $archive_book = Book::onlyTrashed()->get();
+        if (!$archive_book) {
+            return $this->error('Book archived not found');
+        }
+        return $this->success('Books archived', $archive_book, 200);
     }
 }
