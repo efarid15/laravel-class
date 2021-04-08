@@ -47,4 +47,14 @@ class BookController extends Controller
     {
         return $this->bookInterface->bookArchived($request);
     }
+
+    public function authorBook(Request $request)
+    {
+        return $this->bookInterface->authorBook($request);
+    }
+
+    public function restoreBook(Request $request)
+    {
+        return $this->bookInterface->restoreBook($request);
+    }
 }

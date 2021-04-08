@@ -32,11 +32,13 @@ Route::group([ 'middleware' => 'auth:api'], function() {
 
     Route::get('/books', 'BookController@getBooks');
     Route::group(['prefix' => 'book'], function () {
+        Route::put('/restore', 'BookController@restoreBook');
         Route::get('/archived', 'BookController@bookArchived');
+        Route::put('/update/{id}', 'BookController@updateBook');
         Route::get('/{id}', 'BookController@getBookDetails');
         Route::post('/', 'BookController@createBook');
-        Route::put('/{id}', 'BookController@updateBook');
         Route::delete('/{id}', 'BookController@deleteBook');
+        Route::get('/author/{id}', 'BookController@authorBook');
 
     });
 

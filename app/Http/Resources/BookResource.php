@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Author;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BookResource extends JsonResource
@@ -14,12 +15,12 @@ class BookResource extends JsonResource
      */
     public function toArray($request)
     {
-        return ['data' => $this->collection];
+        $author = Author::find($this->author_id);
 
-        /*return [
+        return [
             'id' => $this->id,
             'title' => $this->title,
-            'author' => $this->author
-        ];*/
+            'author' => $author->name
+        ];
     }
 }

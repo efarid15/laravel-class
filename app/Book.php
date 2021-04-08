@@ -17,13 +17,13 @@ class Book extends Model
         'created_at','updated_at','deleted_at'
     ];
 
-    public function scopeWhereLike($query, $column, $value)
+    public function scopeAuthorId($query, $author_id)
     {
-        return $query->where($column, 'like', '%'.$value.'%');
+        return $query->where('author_id', $author_id);
     }
 
-    public function scopeOrWhereLike($query, $column, $value)
+    public function scopeArchived($query, $book_ids)
     {
-        return $query->orWhere($column, 'like', '%'.$value.'%');
+        return $query->onlyTrashed()->whereIn('id', $book_ids);
     }
 }

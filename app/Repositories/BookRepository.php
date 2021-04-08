@@ -116,4 +116,32 @@ class BookRepository implements BookInterface
         }
         return $this->success('Books archived', $archive_book, 200);
     }
+
+    public function authorBook(Request $request)
+    {
+        $author_id = $request->id;
+        //$books = Book::where('author_id', $author_id)->get();
+        $books = Book::authorId($author_id)->get();
+
+        if($books === null) {
+            return $this->error("Author $author_id not found");
+        }
+        $response = BookResource::collection($books);
+        return $this->success('Book by author', $response, 200);
+    }
+
+    public function restoreBook(Request $request)
+    {
+        $book_ids = $request->ids;
+
+        $book_ids = array_map('intVal', explode(',', $book_ids));
+
+        //$books = Book::onlyTrashed()->whereIn('id', $book_ids)->restore();
+        $books = Book::archived($book_ids)->restore();
+
+        $response = BookResource::collection(Book::onlyTrashed()->get());
+
+        return $this->success("$books books restored", $response, 200);
+
+    }
 }

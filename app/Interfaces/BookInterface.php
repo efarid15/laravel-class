@@ -12,4 +12,6 @@ interface BookInterface
     public function updateBook(Request $request);
     public function deleteBook(Request $request);
     public function bookArchived(Request $request);
+    public function authorBook(Request $request);
+    public function restoreBook(Request $request);
 }
